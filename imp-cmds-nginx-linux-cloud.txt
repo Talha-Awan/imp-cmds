@@ -1,0 +1,27 @@
+cd /var/www/logs/nginx/
+
+cat access.log | grep " 502 "
+- find all 502 errors in access log
+
+cat error.log | grep "2021/02/04 00:04:23 "
+- find all errors in this site on this time
+
+grep -r PetalBot *access.log | awk '{print $1}' | cut -d: -f2 | sort | uniq -c | sort -n
+- Number of request count from IPs that were access from ZoominfoBot
+
+cat access.log | awk '{print $29}' | uniq -c | wc -l
+- Count unique visits for proxied visits
+
+awk -F'"' '/GET/ {print $6}' access.log | cut -d' ' -f1 | sort | uniq -c | sort -rn
+- List user agents (edited)
+
+grep " 444 " access.log | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | uniq -c
+- Fetch unique ips for 444 logs 
+
+cat access.log | grep "/*" | grep " 444 " | awk '{print $1,$7}' | uniq
+- For getting 444 ips with uri
+
+grep " 444 " access.log | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | uniq
+- For getting unique ips in a single log
+
+cat access.log | grep " 444 "
